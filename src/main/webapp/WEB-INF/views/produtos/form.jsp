@@ -29,9 +29,9 @@
 		<c:forEach items="${tipos}" var="tipoPreco" varStatus="status">
 			<div>
 				<label>${tipoPreco}</label>
-				<input type="text"   name="precos[${status.index}].valor"> <!-- Com o indice eu acesso o value para envio ao Controller -->
+				<input type="text"   name="precos[${status.index}].valor"> <!-- Com o indice eu acesso o value e envio ao Controller -->
 				<input type="hidden" name="precos[${status.index}].tipo" value="${tipoPreco}">
-				<!-- No input eu preciso devolver o valor para controller precos é um atributo definido na classe Produto -->
+				<!-- No input eu preciso devolver o valor para controller, precos é um atributo definido na classe Produto -->
 			</div>
 		
 		</c:forEach>

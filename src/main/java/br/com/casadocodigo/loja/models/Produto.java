@@ -14,7 +14,7 @@ import javax.persistence.Id;
  * - @Entity é usada para definirmos que está classe é uma entidade.
  * - Depois desse mapeamento o próximo passo é definir a classe de acesso a dados responsável por manipular os produtos, chamarei de ProdutoDAO.
  * - @ElementCollection com essa anotação indicamos que o atributo é uma coleção de elementos
- * - O Spring irá detectar que estamos enviando valores para o atributo precos em determindas posições da lista.
+ * - O Spring irá detectar que estamos enviando valores para o atributo precos em determindas posições "indice" da lista.
  * - Ele também vai detectar os valores que são do tipoPreco e irá preencher correramente a lista.
  * - precos[numero].tipo, estamos acessando o atributo tipo de um objeto do tipo Preco, e esse tipo é recuperado de um enum TipoPreco
  * - o input no form do tipo hidden é para passarmos o tipo de preço: ebook, impresso e combo

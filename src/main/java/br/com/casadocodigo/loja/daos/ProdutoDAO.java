@@ -1,5 +1,7 @@
 package br.com.casadocodigo.loja.daos;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -16,7 +18,7 @@ import br.com.casadocodigo.loja.models.Produto;
  * - O próximo passo é fazer com que o ProdutosController ao receber produto utilize o nosso DAO para salvar no banco de dados.
  * - @Repository usamos essa anotação para dizermos ao Spring gerenciar está classe.
  * - O passo seguinte é informar ao Spring para ele encontrar está classe e para isso entramos na classe de configuração AppWebConfiguration.
- *
+ * - O método getResultList irá criar uma lista com os resultados da consulta ao banco de dados.
  */
 
 @Repository
@@ -29,4 +31,9 @@ public class ProdutoDAO {
 	public void gravar(Produto produto) {
 		manager.persist(produto);
 	}
+	
+	public List<Produto> listar() {
+		return manager.createQuery("select p from Produto p", Produto.class).getResultList();
+	}
+	
 }
