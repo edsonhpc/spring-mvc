@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * - Ao criar o método acima para gerar  EntityManager, este precisa de um adpter e estamos passando um que o próprio Hibernate disponibiliza.
  * - Depois de tudo configurado precisamos disponiblizar essa configuração para o Spring, e isso é feito na classe ServletSpringMVC no método getServletConfigClass
  * - O método transactionManager é criado para gerenciar as transações e precisamos que ele reconheça o no EntityManager ou seja o gerenciador de entidades. 
- * - @EnableTransactionManagement é ativa o gerenciamento de transaões e já reconhece o TransctionManager.
+ * - @EnableTransactionManagement ativa o gerenciamento de transações e já reconhece o TransctionManager.
  * - Depois devemos ir nas classes DAO e e realizar a anotação @Transactional.
  */
 
@@ -46,7 +46,7 @@ public class JPAConfiguration {
 		props.setProperty("hibernate.hbm2ddl.auto", "update");
 		factoryBean.setJpaProperties(props);
 
-		factoryBean.setPackagesToScan("br.com.casadocodigo.loja.models"); // Configuração para o EntityManager deve encontrar os Models
+		factoryBean.setPackagesToScan("br.com.casadocodigo.loja.models"); // Configuração para o EntityManager deve procurar as classes no Models
 		
 		return factoryBean; 
 	}

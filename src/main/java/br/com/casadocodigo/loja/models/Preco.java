@@ -7,7 +7,7 @@ import javax.persistence.Embeddable;
  * 
  * @author Edson Cavalcanti
  * - O objetivo de classe preço é fazer com que tenhamos uma lista de preços associados ao mesmo produto.
- * - @Embeddable com essa anotação é para o Spring portar os elementos de preço para dentro da coleção de elementos.
+ * - @Embeddable com essa anotação é para o Spring portar os elementos de preço para dentro da coleção de elementos da classe Produto.
  * - O TipoPreco é um enum que definimos para que tenhamos os valores fixos.
  */
 
