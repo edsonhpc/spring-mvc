@@ -43,6 +43,9 @@ import br.com.casadocodigo.loja.validation.ProdutoValidation;
  *   - Implementar na classe ProdutoValitation a interface Validator;
  * - BindingResult recebe o resultado da verificação, esse objeto tem o método hasErrors que informa se houve erros de validação ou não.
  *   - O BindingResult precisa ser usado logo após a declaração do @Valid
+ *   
+ * - No método form passamos que o objeto Produto, isso é para que o objeto fique disponivel no form, caso não passemos a classe 
+ * - como parâmetro será aprensentado erro no form, visto que o Spring tanta usar um objeto que não pode exibir no formulário.  
  */
 @Controller
 @RequestMapping("/produtos")
@@ -57,7 +60,7 @@ public class ProdutosController {
 	}
 	
 	@RequestMapping(value = "/form", method = RequestMethod.GET)
-	public ModelAndView form() {
+	public ModelAndView form(Produto produto) {
 		ModelAndView modelAndView = new ModelAndView("produtos/form");
 		modelAndView.addObject("tipos", TipoPreco.values());
 		
@@ -68,7 +71,7 @@ public class ProdutosController {
 	public ModelAndView gravar(@Valid Produto produto, BindingResult result, RedirectAttributes redirectAtributes) { // Seguir ordem dos parâmetros
 		
 		if(result.hasErrors()) {
-			return form(); // Verifica a existencia de erros de validação e retorna para o form();
+			return form(produto); // Verifica a existencia de erros de validação e retorna para o form();
 		}
 		
 		produtoDao.gravar(produto);

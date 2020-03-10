@@ -1,5 +1,6 @@
 package br.com.casadocodigo.loja.models;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -7,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
@@ -18,6 +22,10 @@ import javax.persistence.Id;
  * - Ele também vai detectar os valores que são do tipoPreco e irá preencher correramente a lista.
  * - precos[numero].tipo, estamos acessando o atributo tipo de um objeto do tipo Preco, e esse tipo é recuperado de um enum TipoPreco
  * - o input no form do tipo hidden é para passarmos o tipo de preço: ebook, impresso e combo
+ * - @DateTimeFormat o objetivo dessa anotação é fazer com que o campo text que vem do form seja formatado para o tipo Calenda
+ * - e no banco de dados será criado um campo do tipo DateTime
+ * - No DateTimeFormat também poderia usar esse pattern="dd/MM/yyyy" direto no atributo, no entanto, teria que fazer toda aplicação
+ * - por esse motivo realizei a configuração de um Bean na classe AppWebConfiguration com o método FormattingConversionService.
  */
 @Entity
 public class Produto {
@@ -25,9 +33,14 @@ public class Produto {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String titulo;
+	
+	@Lob
 	private String descricao;
 	private int paginas;
 
+	@DateTimeFormat
+	private Calendar dataLancamento;
+	
 	@ElementCollection
 	private List<Preco> precos;
 	
@@ -63,10 +76,19 @@ public class Produto {
 		return precos;
 	}
 	
+
 	public void setPrecos(List<Preco> precos) {
 		this.precos = precos;
 	}
-	
+
+	public Calendar getDataLancamento() {
+		return dataLancamento;
+	}
+
+	public void setDataLancamento(Calendar dataLancamento) {
+		this.dataLancamento = dataLancamento;
+	}
+
 	@Override
 	public String toString() {
 		return "Produto [id=" + id + ", titulo=" + titulo + ", descricao=" + descricao + ", paginas=" + paginas + "]";

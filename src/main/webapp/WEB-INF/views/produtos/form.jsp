@@ -14,29 +14,34 @@
 	
 		<div>
 			<label> Título</label>
-			<input type="text" name="titulo">
+			<form:input path="titulo"/> <!-- tag form:input é gerenciado pelo spring que deixa o código limpo e também não apaga o campo quando apresenta erro de validação no form -->
 			<form:errors path="titulo"/> <!-- tag form:errors exibe a mensagem de erro e o atributo path indica qual o atributo que queremos objet a mensagem -->
 		</div>
 		
 		<div>
 			<label>Descrição</label>
-			<textarea rows="10" cols="20" name="descricao"></textarea>
+			<form:textarea path="descricao" rows="10" cols="20"/>
 			<form:errors path="descricao"/>
 		</div>
 		
 		<div>
 			<label>Páginas</label>
-			<input type="text" name="paginas">
+			<form:input path="paginas"/>
 			<form:errors path="paginas"/>
+		</div>
+		
+		<div>
+			<label>Data de Lançamento</label>
+		    <form:input path="dataLancamento"/>
+		    <form:errors path="dataLancamento"/>
 		</div>
 	
 	  <!-- Com o forEach pegamos o objeto tipos atribui para tipoPreco e varStatus serve como um contador -->
 		<c:forEach items="${tipos}" var="tipoPreco" varStatus="status">
 			<div>
 				<label>${tipoPreco}</label>
-				<input type="text"   name="precos[${status.index}].valor"> <!-- Com o indice eu acesso o value e envio ao Controller -->
-				<input type="hidden" name="precos[${status.index}].tipo" value="${tipoPreco}">
-				<!-- No input eu preciso devolver o valor para controller, precos é um atributo definido na classe Produto -->
+				<form:input path="precos[${status.index}].valor"/> <!-- Com o indice eu acesso o value e envio ao Controller -->
+				<form:hidden path="precos[${status.index}].tipo" value="${tipoPreco}"/> <!-- No input eu preciso devolver o valor para controller, precos é um atributo definido na classe Produto -->
 			</div>
 		
 		</c:forEach>
