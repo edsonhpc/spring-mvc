@@ -11,10 +11,12 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.casadocodigo.loja.daos.ProdutoDAO;
+import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.Produto;
 import br.com.casadocodigo.loja.models.TipoPreco;
 import br.com.casadocodigo.loja.validation.ProdutoValidation;
@@ -45,7 +47,12 @@ import br.com.casadocodigo.loja.validation.ProdutoValidation;
  *   - O BindingResult precisa ser usado logo após a declaração do @Valid
  *   
  * - No método form passamos que o objeto Produto, isso é para que o objeto fique disponivel no form, caso não passemos a classe 
- * - como parâmetro será aprensentado erro no form, visto que o Spring tanta usar um objeto que não pode exibir no formulário.  
+ * - como parâmetro será aprensentado erro no form, visto que o Spring tenta usar um objeto que não pode exibir no formulário.  
+ * - Mesmo que seja vazio o spring precisa de um objeto para armazenar os dados e para exibir o formulário mesmo que vazio.
+ *
+ * - O objeto MultipartFile usado para receber o arquivo enviado pelo form
+ * 
+ *
  */
 @Controller
 @RequestMapping("/produtos")
@@ -53,6 +60,9 @@ public class ProdutosController {
 
 	@Autowired
 	private ProdutoDAO produtoDao;
+	
+	@Autowired
+	private FileSaver fileSaver;
 	
 	@InitBinder
 	public void initBinder (WebDataBinder binder) {
@@ -68,11 +78,14 @@ public class ProdutosController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView gravar(@Valid Produto produto, BindingResult result, RedirectAttributes redirectAtributes) { // Seguir ordem dos parâmetros
+	public ModelAndView gravar(MultipartFile sumario,  @Valid Produto produto, BindingResult result, RedirectAttributes redirectAtributes) { // Seguir ordem dos parâmetros
 		
 		if(result.hasErrors()) {
 			return form(produto); // Verifica a existencia de erros de validação e retorna para o form();
 		}
+		
+		String path = fileSaver.write("arquivos-sumario", sumario);
+		produto.setSumarioPath(path);
 		
 		produtoDao.gravar(produto);
 		redirectAtributes.addFlashAttribute("sucesso", "Produto cadastrado com sucesso!"); // Objeto recebe a chave e valor 

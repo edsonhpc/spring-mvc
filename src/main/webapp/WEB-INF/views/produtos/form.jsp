@@ -10,7 +10,8 @@
 </head>
 <body>
 	<!-- mvcUrl gera uma URL de acordo com o controller, passando somente suas iniciais PC = ProdutoControler + método que será enviado os dados -->
-	<form:form action="${s:mvcUrl('PC#gravar').build()}" method="POST" commandName="produto"> <!-- commandName usado para referenciar qual entidade do formulário -->
+	<form:form action="${s:mvcUrl('PC#gravar').build()}" method="POST" commandName="produto"
+				enctype="multipart/form-data"> <!-- commandName usado para referenciar qual entidade do formulário -->
 	
 		<div>
 			<label> Título</label>
@@ -45,6 +46,10 @@
 			</div>
 		
 		</c:forEach>
+		<div>
+			<label>Sumário</label>
+			<input type="file" name="sumario" />
+		</div>
 		<button type="submit">Cadastrar</button>
 	</form:form>
 	

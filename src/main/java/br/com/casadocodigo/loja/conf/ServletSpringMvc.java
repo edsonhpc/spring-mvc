@@ -1,6 +1,8 @@
 package br.com.casadocodigo.loja.conf;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -10,7 +12,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  * @author Edson Cavalcanti
  * - Classe de configuração do Servlet do Spring MVC para que ele atenda as requisições recebidas pelo servidor.
  * - getServletFilters esse método do Spring espera receber um array de filtros, então criamos um CharacterEncodingFilter e definimos o encoding.
- * - 
+ * - Essa classe é usada para inicializar nossa aplicação.
  */
 
 public class ServletSpringMvc extends AbstractAnnotationConfigDispatcherServletInitializer{
@@ -36,8 +38,12 @@ public class ServletSpringMvc extends AbstractAnnotationConfigDispatcherServletI
 	protected Filter[] getServletFilters() { // Retorno um array com as configurações do filtro das requisições.
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
 		encodingFilter.setEncoding("UTF-8");
-		
 		return new Filter[] {encodingFilter};
+	}
+	
+	@Override
+	protected void customizeRegistration(Dynamic registration) {
+		registration.setMultipartConfig(new MultipartConfigElement("")); // Configuração necessária que permite o spring trabalhar com arquivos multpart.
 	}
 
 }
