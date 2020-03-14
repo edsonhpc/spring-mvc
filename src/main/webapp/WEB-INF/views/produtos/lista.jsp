@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,12 @@
 		</tr>
 		<c:forEach items="${produtos}" var="produto">
 			<tr>
-				<td>${produto.titulo}</td>
+				<td> <!-- mvcUrl passamos o link para o "PC" ProdutosController# chamadno o método detalhe, o arg é para informar qual o 
+						  parametro que estamos enviando para o controller, é obrigatório colocar como 0 no inicio e depois o -->
+					<a href="${s:mvcUrl('PC#detalhe').arg(0,produto.id).build()}">
+						${produto.titulo}
+					</a>
+				</td>
 				<td>${produto.descricao}</td>
 				<td>${produto.paginas}</td>
 			</tr>	

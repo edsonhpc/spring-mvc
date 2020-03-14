@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,7 +42,7 @@ import br.com.casadocodigo.loja.validation.ProdutoValidation;
  * - O método initBinder é necessário para que seja a possivel a validação automatica.
  * - Com o método initBinder ele recebe um objeto do tipo WebDataBinder, esse objeto tem um método addValidators que recebe uma instância de uma classe
  *   - que implemente a interface Validador do Spring. 
- *   - Esse binder é o responsável por conecetar as duas coisas, por exemplo os dados do formulário com o objeto da classe Produto.
+ *   - Esse binder é o responsável por conectar as duas coisas, por exemplo os dados do formulário com o objeto da classe Produto.
  *   - Implementar na classe ProdutoValitation a interface Validator;
  * - BindingResult recebe o resultado da verificação, esse objeto tem o método hasErrors que informa se houve erros de validação ou não.
  *   - O BindingResult precisa ser usado logo após a declaração do @Valid
@@ -97,6 +98,15 @@ public class ProdutosController {
 		List<Produto> produtos = produtoDao.listar();
 		ModelAndView modelAndView = new ModelAndView("produtos/lista");
 		modelAndView.addObject("produtos", produtos);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("/detalhe/{id}")
+	public ModelAndView detalhe(@PathVariable("id") Integer id) {
+		ModelAndView modelAndView = new ModelAndView("produtos/detalhe");
+		Produto produto = produtoDao.find(id);
+		modelAndView.addObject("produto", produto);
 		
 		return modelAndView;
 	}

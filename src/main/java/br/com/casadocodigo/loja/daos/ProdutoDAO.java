@@ -19,6 +19,7 @@ import br.com.casadocodigo.loja.models.Produto;
  * - @Repository usamos essa anotação para dizermos ao Spring gerenciar está classe.
  * - O passo seguinte é informar ao Spring para ele encontrar está classe e para isso entramos na classe de configuração AppWebConfiguration.
  * - O método getResultList irá criar uma lista com os resultados da consulta ao banco de dados.
+ * 
  */
 
 @Repository
@@ -36,4 +37,8 @@ public class ProdutoDAO {
 		return manager.createQuery("select p from Produto p", Produto.class).getResultList();
 	}
 	
+	public Produto find(Integer id) { // o fetch usado abaixo, informa que queremos que ao trazer o Produto ele traga também os seus preços
+		return manager.createQuery("select distinct(p) from Produto p join fetch p.precos precos "
+				+ "where p.id = :id", Produto.class).setParameter("id", id).getSingleResult();
+	}
 }

@@ -13,12 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Edson Cavalcanti
  * - Objetivo dessa classe é de salvar o arquivo recebido.
  * - O método write será usado para salvar o arquivo em uma pasta recebida por parâmetro.
- * - esse métodp fará a transferencia do arquivo e irá retornar onde o arquivo foi salvo;
+ * - esse método fará a transferencia do arquivo e irá retornar onde o arquivo foi salvo;
  * - Esse método precisara de duas informações, o local onde o arquivo será salvo e o arquivo em si.
  * - O local será recebido como String e o arquivo é um objeto MultpartFile.
  * - O file irá representar o arquivo a ser gravado no servidor, e o método transferTo é o responsável por transferir o arquivo
  *
- * - HttpServletRequest: seu objeto é ser injetado pelo Spring para extrair o contexto atual em que usuário se encontra e então
+ * - HttpServletRequest: seu objetivo é ser injetado pelo Spring para extrair o contexto atual em que usuário se encontra e então
  * - conseguir o caminho absoluto desse diretório no servidor. 
  * 
  * - Em resumo essa classe recebe um arquivo e o nome da pasta, transfere o arquivo enviado pelo formulário para a pasta 

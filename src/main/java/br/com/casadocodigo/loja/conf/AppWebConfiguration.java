@@ -10,12 +10,15 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import br.com.casadocodigo.loja.controllers.HomeController;
 import br.com.casadocodigo.loja.daos.ProdutoDAO;
 import br.com.casadocodigo.loja.infra.FileSaver;
+import br.com.casadocodigo.loja.models.CarrinhoCompras;
 
 /**
  * 
@@ -35,26 +38,32 @@ import br.com.casadocodigo.loja.infra.FileSaver;
  * - Por último usamos o registrador para registrar o padrão de data no serviço de conversão.
  * 
  * --- multipartResolver
- *  - Esse método se refere a um resolvedor de dados multimídia, quanto temos texto e arquivos por exemplo.
+ *  - Esse método se refere a um resolvedor de dados multimídia, quando temos texto e arquivos por exemplo.
  *  - Os arquivos podem ser: imagem, PDF e outros, esse objeto identifica cada um dos recursos enviados e nos fornece uma forma simples de manipulá-los.
+ *
+ * - WebMvcConfigurerAdapter por padrão o Spring nega o acesso a pasra resources, para liberar o acesso a essa pasta é necessário extender a classe
+ * AppWebConfiguration com essa outra classe e adicionar o metodo configureDefaultServletHandling para liberar o acesso. 
+ *
  */
 
 @EnableWebMvc
 @ComponentScan(basePackageClasses = {HomeController.class, 
 									 ProdutoDAO.class,
+									 CarrinhoCompras.class,
 									 FileSaver.class}) // Somente com uma classe o Spring reconhece as demais que estão no mesmo pacote
-public class AppWebConfiguration {
+public class AppWebConfiguration extends WebMvcConfigurerAdapter{
 
 	@Bean
 	public InternalResourceViewResolver internalResourceViewResolver() {
 	    InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 	    resolver.setPrefix("/WEB-INF/views/"); // Caminho das views
 	    resolver.setSuffix(".jsp"); // Adiciona extensão dos arquivos de view
+	    resolver.setExposedContextBeanNames("carrinhoCompras"); // Esse configuração deixa todos os nossos beans disponiveis em todas as view JSP {nomde da classe com primeira letra minuscula}
 	    return resolver;
 	}
 	
 	@Bean
-	public MessageSource messageSource() {
+	public MessageSource messageSource() { // Metodo para informar o Spring o caminho do arquivo de mensagens de validação
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("/WEB-INF/messages");
 		messageSource.setDefaultEncoding("UTF-8");
@@ -76,5 +85,9 @@ public class AppWebConfiguration {
 		return new StandardServletMultipartResolver();
 	}
 	
+	@Override
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) { // Habilitar a pasta resources do projeto para carregar arquivos estáticos
+		configurer.enable();
+	}
 	
 }
