@@ -3,7 +3,9 @@ package br.com.casadocodigo.loja.models;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  * 
@@ -16,9 +18,15 @@ import org.springframework.stereotype.Component;
  *   - apesar de estar usando o containsKey não é o suficiente, pois ele usa o método equals disponivel na classe Object
  *   - para que ele consiga comparar corretamente os itens da lista, devemos sobreescrever os dois métodos na classe CarrinhoItem
  *   - e depois na classe Produto para gerar os equals hash code.  
+ *   
+ * - Quando anotamos uma classe com @Component por padrão estamos transformando em um Bean do Spring, e também estamos 
+ * configurando que este objeto será Singleton. Por padrão o Spring tem esta configuração para os seus componentes.
+ *
+ *
  */
 
 @Component
+@Scope(value=WebApplicationContext.SCOPE_SESSION) // Anotação que define o escopo da aplicação
 public class CarrinhoCompras {
 
 	private Map<CarrinhoItem, Integer> itens = new LinkedHashMap<CarrinhoItem, Integer>();
