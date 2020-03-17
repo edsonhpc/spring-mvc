@@ -11,7 +11,7 @@
 	<h1> Lista de Produtos</h1>
 	
 	<div>${sucesso}</div> <!-- Exibo a mensagem do redirectAttributes após o post -->
-	
+	<div>${falha}</div>
 	<table>
 		<tr>
 			<td>Título</td>

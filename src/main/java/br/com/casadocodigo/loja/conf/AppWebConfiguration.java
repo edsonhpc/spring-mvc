@@ -8,6 +8,7 @@ import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.DateFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -88,6 +89,11 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter{
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) { // Habilitar a pasta resources do projeto para carregar arquivos estáticos
 		configurer.enable();
+	}
+	
+	@Bean
+	public RestTemplate restTemplate() { // Liberação do RestTemplate para o Spring fazer requisições Assincronas
+		return new RestTemplate();
 	}
 	
 }

@@ -1,5 +1,6 @@
 package br.com.casadocodigo.loja.models;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
@@ -49,6 +50,10 @@ public class Produto {
 	public int getId() {
 		return id;
 	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getTitulo() {
 		return titulo;
@@ -97,6 +102,10 @@ public class Produto {
 	
 	public void setSumarioPath(String sumarioPath) {
 		this.sumarioPath = sumarioPath;
+	}
+	
+	public BigDecimal precoPara(TipoPreco tipoPreco) { // Criado esse método para pegar somente o preço de acordo com seu tipo;
+		return precos.stream().filter(preco -> preco.getTipo().equals(tipoPreco)).findFirst().get().getValor();
 	}
 	
 	@Override
